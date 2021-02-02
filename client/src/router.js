@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import HomePage from "./pages/dumb/HomePage.vue";
 import AboutPage from "./pages/dumb/AboutPage.vue";
-import GalleryPage from "./pages/dumb/GalleryPage.vue";
+import GalleryPage from "./pages/smart/GalleryPage.vue";
 import ContactPage from "./pages/smart/ContactPage.vue";
 import RequestPage from "./pages/smart/RequestPage.vue";
 import ForSalePage from "./pages/smart/ForSalePage.vue";
