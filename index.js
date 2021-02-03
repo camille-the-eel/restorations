@@ -1,7 +1,7 @@
 // IMPORTS
 const express = require('express');
+const path = require("path");
 // const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const devKeys = require('./server/config/dev');
 
 // require in all models
@@ -15,12 +15,24 @@ const devKeys = require('./server/config/dev');
 // APP DECLARATION
 const app = express();
 
-// MIDDLEWARE : small functions that an be used to modify incoming requests to our app before they are sent off to route handlers
-// app.use(bodyParser.json()); 
+// MIDDLEWARE
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
+// SERVE STATIC ASSETS FOR PROD (to Heroku)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
+
+// ROUTES
 app.get('/', (req, res) => {
   res.send({ hi: 'there'});
 })
+
+// SEND ALL OTHER REQUESTS TO CLIENT SIDE
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 
 // PORT LISTENER
