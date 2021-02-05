@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require("path");
 // const mongoose = require('mongoose');
+var cors = require('cors')
 const devKeys = require('./server/config/dev');
 
 // require in all models
@@ -16,24 +17,25 @@ const devKeys = require('./server/config/dev');
 const app = express();
 
 // MIDDLEWARE
+app.use(cors);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 // SERVE STATIC ASSETS FOR PROD (to Heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-// ROUTES
+// ROUTE HANLDER (SERVER SIDE FIRST)
 app.get('/', (req, res) => {
   res.send({ hi: 'there'});
 })
 
-// SEND ALL OTHER REQUESTS TO CLIENT SIDE
+// THEN HANDLE ALL OTHER REQUESTS ON CLIENT SIDE
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
-
 
 // PORT LISTENER
 const PORT = process.env.PORT || 5000;

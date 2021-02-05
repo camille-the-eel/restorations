@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import HomePage from "./pages/dumb/HomePage.vue";
-import AboutPage from "./pages/dumb/AboutPage.vue";
+import FAQPage from "./pages/dumb/FAQPage.vue";
 import GalleryPage from "./pages/smart/GalleryPage.vue";
 import ContactPage from "./pages/smart/ContactPage.vue";
 import RequestPage from "./pages/smart/RequestPage.vue";
@@ -14,7 +14,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { name: 'home', path: '/', component: HomePage },
-    { name: 'faq', path: '/faq', component: AboutPage },
+    { name: 'faq', path: '/faq', component: FAQPage },
     { name: 'gallery', path: '/gallery', component: GalleryPage },
     { name: 'contact', path: '/contact', component: ContactPage },
     { name: 'quote', path: '/request-quote', component: RequestPage },
