@@ -7,6 +7,9 @@
     <section>
       <h1>Gallery Showcase</h1>
       <p>create gallery component tree to pull in cards</p>
+      <router-link to="/gallery">
+        <button>See more</button>
+      </router-link>
     </section>
     <section>
       <router-link to="/contact">
