@@ -1,7 +1,11 @@
 import { createStore } from 'vuex';
 
+import contactModule from './modules/contact/index.js';
+
 const store = createStore({
-  modules: {},
+  modules: {
+    contact: contactModule
+  },
   mutations: {},
   actions: {},
   getters: {}
