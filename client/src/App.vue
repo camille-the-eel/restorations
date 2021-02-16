@@ -1,15 +1,18 @@
 <template>
-  <the-nav></the-nav>
-  <router-view></router-view>
+  <div>
+    <the-nav></the-nav>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import TheNav from './components/layout/TheNav.vue';
+import TheNav from "./components/layout/TheNav.vue";
+
 export default {
   components: {
-    TheNav
-  }
-}
+    TheNav,
+  },
+};
 </script>
 
 <style>

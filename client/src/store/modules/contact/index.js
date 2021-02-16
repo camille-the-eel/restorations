@@ -10,8 +10,9 @@ export default {
         email: 'camille@zmail.com',
         phone: '7771112222',
         subject: 'Welcome to the message center!',
-        message: 'Hello! Welcome to your message center. Here you will find all the contact requests from your users.',
-        read: false,
+        message: 'Hello! Here you will find all the contact requests from your users.',
+        // read: false,
+        // resolved: false ... or other filters? 
         }
       ]
     }
@@ -39,7 +40,6 @@ export default {
         phone: payload.phone,
         subject: payload.subject,
         message: payload.message,
-        read: false
       }
       context.commit('createContactRequest', formData);
     }

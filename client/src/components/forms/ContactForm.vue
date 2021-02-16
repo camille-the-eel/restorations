@@ -1,6 +1,12 @@
 <template>
-  <div>
-    <form
+<div>
+  <base-modal v-if="resetModal" version="reset">
+    <h3>Confirm Reset</h3>
+    <p>Are you sure you want to clear all input?</p>
+    <button class="no-emphasis" @click="confirmReset">Yes, clear it.</button>
+    <button class="high-emphasis" ref="modalFocus" @click="denyReset">No, keep my input.</button>
+  </base-modal>
+    <form 
       id="c-form"
       class="contact"
       ref="contactForm"
@@ -13,59 +19,59 @@
         </ul>
       </div>
       <div class="form-control contact">
-        <div>
-          <label for="c-first-name">First Name:</label>
+        <div class="text">
+          <label for="first-name">First Name:</label>
           <input
             type="text"
-            id="c-first-name"
-            name="c-first-name"
+            id="first-name"
+            name="first-name"
             required
             v-model.trim="contactForm.firstName"
           /><br />
         </div>
-        <div>
-          <label for="c-last-name">Last Name:</label>
+        <div class="text">
+          <label for="last-name">Last Name:</label>
           <input
             type="text"
-            id="c-last-name"
-            name="c-last-name"
+            id="last-name"
+            name="last-name"
             required
             v-model.trim="contactForm.lastName"
           /><br />
         </div>
-        <div>
-          <label for="c-email">Email:</label>
+        <div class="email">
+          <label for="email">Email:</label>
           <input
             type="email"
-            id="c-email"
-            name="c-email"
+            id="email"
+            name="email"
             required
             v-model.trim="contactForm.email"
           /><br />
-          <label for="c-email-re">Re-enter Email:</label>
+          <label for="email-re">Re-enter Email:</label>
           <input
             type="email"
-            id="c-email-re"
+            id="email-re"
             :class="errorClass.eEmail"
             required
             v-model.trim="validate.vEmail"
             @focus="clearErrorClass('eEmail')"
           /><br />
         </div>
-        <div>
-          <label for="c-phone">Phone Number:</label>
+        <div class="phone">
+          <label for="phone">Phone Number:</label>
           <input
             type="tel"
-            id="c-phone"
-            name="c-phone"
+            id="phone"
+            name="phone"
             required
             v-mask="'(###)###-####'"
             v-model.trim="contactForm.phone"
           /><br />
-          <label for="c-phone-re">Re-enter Phone Number:</label>
+          <label for="phone-re">Re-enter Phone Number:</label>
           <input
             type="tel"
-            id="c-phone-re"
+            id="phone-re"
             :class="errorClass.ePhone"
             required
             v-mask="'(###)###-####'"
@@ -73,20 +79,20 @@
             @focus="clearErrorClass('ePhone')"
           /><br />
         </div>
-        <div>
-          <label for="c-subject">Subject Line:</label>
+        <div class="text">
+          <label for="subject">Subject Line:</label>
           <input
             type="text"
-            id="c-subject"
+            id="subject"
             required
             v-model.trim="contactForm.subject"
           />
         </div>
-        <div>
-          <label for="c-message">Message:</label>
+        <div class="textarea">
+          <label for="message">Message:</label>
           <textarea
-            name="c-message"
-            id="c-message"
+            name="message"
+            id="message"
             cols="30"
             rows="10"
             form="c-form"
@@ -98,11 +104,15 @@
           ></textarea>
           <br />
         </div>
-        <div>
-          <input type="reset" value="reset" @click="resetForm" />
+        <div class="action">
+          <input
+            type="reset"
+            value="Reset"
+            @click.prevent="resetRequest"
+          />
         </div>
-        <div>
-          <input type="submit" value="submit" />
+        <div class="action">
+          <input type="submit" value="Submit" />
         </div>
       </div>
     </form>
@@ -110,10 +120,10 @@
 </template>
 
 <script>
-import {mask} from 'vue-the-mask';
+import { mask } from "vue-the-mask";
 
 export default {
-  directives: {mask},
+  directives: { mask },
   emits: ["store-data"],
   data() {
     return {
@@ -135,6 +145,7 @@ export default {
         ePhone: null,
         eMessage: null,
       },
+      resetModal: false,
     };
   },
   methods: {
@@ -178,14 +189,27 @@ export default {
     clearForm() {
       var self = this;
 
+      // iterates through each object field by name (key = name)
       Object.keys(this.contactForm).forEach(function(key) {
         self.contactForm[key] = "";
+        //"this" used here would refer to "Object.keys" (hence why we need self)
       });
 
       Object.keys(this.validate).forEach(function(key) {
         self.validate[key] = "";
       });
     },
+    resetRequest() {
+      this.resetModal = true;
+    },
+    denyReset() {
+      this.resetModal = false;
+    },
+    confirmReset() {
+      this.resetErrors();
+      this.clearForm();
+      this.resetModal = false;
+    }
   },
 };
 </script>
@@ -193,5 +217,9 @@ export default {
 <style scoped>
 .error-active {
   color: red;
+}
+
+form .testing {
+  background: #fff;
 }
 </style>
