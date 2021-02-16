@@ -9,6 +9,7 @@ export default {
         lastName: 'Hughes',
         email: 'camille@zmail.com',
         phone: '7771112222',
+        subject: 'Welcome to the message center!',
         message: 'Hello! Welcome to your message center. Here you will find all the contact requests from your users.',
         read: false,
         }
@@ -36,6 +37,7 @@ export default {
         lastName: payload.lastName,
         email: payload.email,
         phone: payload.phone,
+        subject: payload.subject,
         message: payload.message,
         read: false
       }

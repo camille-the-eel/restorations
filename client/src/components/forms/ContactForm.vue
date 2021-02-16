@@ -5,8 +5,6 @@
       class="contact"
       ref="contactForm"
       @submit.prevent="checkForm"
-      action="form-handler-goes-here"
-      method="post"
     >
       <div class="form-errors" v-if="errors.length">
         <p>Please correct the following errors:</p>
@@ -41,7 +39,6 @@
             type="email"
             id="c-email"
             name="c-email"
-            :class="errorClass.eEmail"
             required
             v-model.trim="contactForm.email"
           /><br />
@@ -52,32 +49,38 @@
             :class="errorClass.eEmail"
             required
             v-model.trim="validate.vEmail"
+            @focus="clearErrorClass('eEmail')"
           /><br />
         </div>
         <div>
-          <small class="format-note">
-            Please format your 10-digit phone number without any spaces or
-            special characters. </small
-          ><br />
           <label for="c-phone">Phone Number:</label>
           <input
             type="tel"
             id="c-phone"
             name="c-phone"
-            pattern="[0-9]{10}"
-            :class="errorClass.ePhone"
             required
+            v-mask="'(###)###-####'"
             v-model.trim="contactForm.phone"
           /><br />
           <label for="c-phone-re">Re-enter Phone Number:</label>
           <input
             type="tel"
             id="c-phone-re"
-            pattern="[0-9]{10}"
             :class="errorClass.ePhone"
             required
+            v-mask="'(###)###-####'"
             v-model.trim="validate.vPhone"
+            @focus="clearErrorClass('ePhone')"
           /><br />
+        </div>
+        <div>
+          <label for="c-subject">Subject Line:</label>
+          <input
+            type="text"
+            id="c-subject"
+            required
+            v-model.trim="contactForm.subject"
+          />
         </div>
         <div>
           <label for="c-message">Message:</label>
@@ -88,9 +91,10 @@
             rows="10"
             form="c-form"
             placeholder="Type your message here."
-            :class="errorClass.eMessage"
             required
+            :class="errorClass.eMessage"
             v-model.trim="contactForm.message"
+            @focus="clearErrorClass('eMessage')"
           ></textarea>
           <br />
         </div>
@@ -106,7 +110,10 @@
 </template>
 
 <script>
+import {mask} from 'vue-the-mask';
+
 export default {
+  directives: {mask},
   emits: ["store-data"],
   data() {
     return {
@@ -116,6 +123,7 @@ export default {
         lastName: "",
         email: "",
         phone: "",
+        subject: "",
         message: "",
       },
       validate: {
@@ -131,6 +139,16 @@ export default {
   },
   methods: {
     checkForm() {
+      this.validateForm();
+      if (this.errors.length != 0) {
+        return false;
+      }
+      let formData = this.contactForm;
+      this.$emit("store-data", formData);
+
+      this.clearForm();
+    },
+    validateForm() {
       this.errors = [];
 
       if (this.contactForm.email != this.validate.vEmail) {
@@ -141,21 +159,32 @@ export default {
         this.errors.push("Phone number inputs must match.");
         this.errorClass.ePhone = "error-active";
       }
-      if (this.contactForm.message.length <= 100) {
-        this.errors.push("Please include more details in your message.");
+      if (this.contactForm.message.length <= 50) {
+        this.errors.push(
+          "Please include more details in your message (minimum of 50 characters)."
+        );
         this.errorClass.eMessage = "error-active";
       }
-
-      //form submission
-      let formData = this.contactForm;
-      console.log(formData);
-      this.$emit("store-data", formData);
     },
-    resetForm() {
+    resetErrors() {
       this.errors = [];
       this.errorClass.eEmail = null;
       this.errorClass.ePhone = null;
       this.errorClass.eMessage = null;
+    },
+    clearErrorClass(input) {
+      this.errorClass[input] = null;
+    },
+    clearForm() {
+      var self = this;
+
+      Object.keys(this.contactForm).forEach(function(key) {
+        self.contactForm[key] = "";
+      });
+
+      Object.keys(this.validate).forEach(function(key) {
+        self.validate[key] = "";
+      });
     },
   },
 };
