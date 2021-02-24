@@ -25,6 +25,7 @@
             type="text"
             id="first-name"
             name="first-name"
+            maxlength="35"
             required
             v-model.trim="contactForm.firstName"
           /><br />
@@ -35,6 +36,7 @@
             type="text"
             id="last-name"
             name="last-name"
+            maxlength="35"
             required
             v-model.trim="contactForm.lastName"
           /><br />
@@ -45,6 +47,7 @@
             type="email"
             id="email"
             name="email"
+            maxlength="255"
             required
             v-model.trim="contactForm.email"
           /><br />
@@ -52,6 +55,7 @@
           <input
             type="email"
             id="email-re"
+            maxlength="255"
             :class="errorClass.eEmail"
             required
             v-model.trim="validate.vEmail"
@@ -64,8 +68,9 @@
             type="tel"
             id="phone"
             name="phone"
+            maxlength="18"
             required
-            v-mask="'(###)###-####'"
+            v-mask="'(###)###-####x####'"
             v-model.trim="contactForm.phone"
           /><br />
           <label for="phone-re">Re-enter Phone Number:</label>
@@ -73,8 +78,9 @@
             type="tel"
             id="phone-re"
             :class="errorClass.ePhone"
+            maxlength="18"
             required
-            v-mask="'(###)###-####'"
+            v-mask="'(###)###-####x####'"
             v-model.trim="validate.vPhone"
             @focus="clearErrorClass('ePhone')"
           /><br />
@@ -85,6 +91,7 @@
             type="text"
             id="subject"
             required
+            maxlength="142"
             v-model.trim="contactForm.subject"
           />
         </div>
@@ -97,12 +104,14 @@
             rows="10"
             form="c-form"
             placeholder="Type your message here."
+            :maxlength="validate.messageMax"
             required
             :class="errorClass.eMessage"
             v-model.trim="contactForm.message"
             @focus="clearErrorClass('eMessage')"
           ></textarea>
           <br />
+          <div class="notice-maxlength">Character limit remaining: {{ messageMax - contactForm.message.length }}</div>
         </div>
         <div class="action">
           <input
@@ -146,6 +155,7 @@ export default {
         eMessage: null,
       },
       resetModal: false,
+      messageMax: 1000
     };
   },
   methods: {
@@ -221,5 +231,10 @@ export default {
 
 form .testing {
   background: #fff;
+}
+
+.form-errors {
+  background-color: red;
+  color: white;
 }
 </style>
