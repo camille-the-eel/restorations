@@ -21,9 +21,6 @@ export default {
     readContactRequests(state) {
       return state.contactRequests;
     },
-    readCheck(state) {
-      return state.contactRequests;
-    }
   },
   mutations: {
     createContactRequest(state, data) {

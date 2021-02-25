@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- pdfmake -->
     <base-modal v-if="resetModal" version="reset">
       <h3>Confirm Reset</h3>
       <p>Are you sure you want to clear all input?</p>

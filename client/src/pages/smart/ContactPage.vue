@@ -29,7 +29,7 @@ export default {
   },
   computed: {
   checkStore() {
-     return this.$store.getters['contact/readCheck'];
+     return this.$store.getters['contact/readContactRequests'];
   }
   }
 };
