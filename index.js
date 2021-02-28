@@ -1,7 +1,7 @@
 // IMPORTS
 const express = require('express');
 const path = require("path");
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 var cors = require('cors')
 const devKeys = require('./server/config/dev');
 
@@ -11,7 +11,7 @@ const devKeys = require('./server/config/dev');
 // require('./server/models/Contact');
 
 // CONNECT TO MONGO ATLAS via private key
-// mongoose.connect(devKeys.mongoURI);
+mongoose.connect(devKeys.mongoURI);
 
 // APP DECLARATION
 const app = express();
