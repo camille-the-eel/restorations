@@ -28,9 +28,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // ROUTE HANLDER (SERVER SIDE FIRST)
-app.get('/', (req, res) => {
-  res.send({ hi: 'there'});
-})
+// app.get('/', (req, res) => {
+//   res.send({ hi: 'there'});
+// })
 
 // THEN HANDLE ALL OTHER REQUESTS ON CLIENT SIDE
 app.get("*", (req, res) => {
