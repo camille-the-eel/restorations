@@ -3,7 +3,7 @@ const express = require('express');
 const path = require("path");
 const mongoose = require('mongoose');
 var cors = require('cors')
-const devKeys = require('./server/config/dev');
+const keys = require('./server/config/keys.js');
 
 // require in all models
 // MUST call models before they are used– this creates the model. can't use it if it doesn't exist yet
@@ -11,7 +11,7 @@ const devKeys = require('./server/config/dev');
 // require('./server/models/Contact');
 
 // CONNECT TO MONGO ATLAS via private key
-mongoose.connect(devKeys.mongoURI);
+mongoose.connect(keys.mongoURI);
 
 // APP DECLARATION
 const app = express();
