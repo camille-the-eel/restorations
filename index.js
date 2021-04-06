@@ -1,5 +1,7 @@
 // IMPORTS
 const express = require('express');
+const serveStatic = require("serve-static")
+
 const path = require("path");
 const mongoose = require('mongoose');
 var cors = require('cors')
@@ -11,7 +13,7 @@ const keys = require('./server/config/keys.js');
 // require('./server/models/Contact');
 
 // CONNECT TO MONGO ATLAS via private key
-mongoose.connect(keys.mongoURI);
+mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // APP DECLARATION
 const app = express();
@@ -24,7 +26,8 @@ app.use(express.json());
 
 // SERVE STATIC ASSETS FOR PROD (to Heroku)
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  // app.use(express.static("client/build"));
+  app.use(serveStatic(path.join(__dirname, 'dist')));
 }
 
 // ROUTE HANLDER (SERVER SIDE FIRST)
